@@ -1,4 +1,4 @@
-#!/usr/bin/ env ruby
+#!/usr/bin/env ruby
 
 input = ARGV[0].to_s
 matches = input.scan(/hbt{2,5}n/)
