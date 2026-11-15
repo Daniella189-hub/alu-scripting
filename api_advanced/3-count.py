@@ -7,15 +7,12 @@ def count_words(subreddit, word_list, after=None, counts=None):
     """Print sorted keyword counts from hot post titles."""
     if counts is None:
         counts = {}
-        for word in word_list:
-            w = word.lower()
-            counts[w] = counts.get(w, 0)
 
     if not subreddit or not isinstance(subreddit, str):
         return
 
     url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
-    headers = {"User-Agent": "alu-scripting:api_advanced:v1.0 (by /u/your_username)"}
+    headers = {"User-Agent": "alu-scripting:api_advanced:v1.0 (by /u/user)"}
     params = {"limit": 100}
     if after:
         params["after"] = after
@@ -29,8 +26,6 @@ def count_words(subreddit, word_list, after=None, counts=None):
     except (requests.RequestException, ValueError):
         return
 
-    # Number of times each distinct keyword appears in the word_list
-    # (duplicates in word_list multiply the count, e.g. 'JavA java' -> x2)
     multiplier = {}
     for word in word_list:
         w = word.lower()
@@ -40,7 +35,7 @@ def count_words(subreddit, word_list, after=None, counts=None):
         title = post.get("data", {}).get("title", "")
         for token in title.lower().split():
             if token in multiplier:
-                counts[token] += multiplier[token]
+                counts[token] = counts.get(token, 0) + multiplier[token]
 
     after = data.get("after")
     if after:

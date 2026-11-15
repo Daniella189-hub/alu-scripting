@@ -4,14 +4,14 @@ import requests
 
 
 def recurse(subreddit, hot_list=None, after=None):
-    """Return a list of all hot post titles, or None if subreddit is invalid."""
+    """Return a list of hot post titles, or None if subreddit is invalid."""
     if hot_list is None:
         hot_list = []
     if not subreddit or not isinstance(subreddit, str):
         return None
 
     url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
-    headers = {"User-Agent": "alu-scripting:api_advanced:v1.0 (by /u/your_username)"}
+    headers = {"User-Agent": "alu-scripting:api_advanced:v1.0 (by /u/user)"}
     params = {"limit": 100}
     if after:
         params["after"] = after
